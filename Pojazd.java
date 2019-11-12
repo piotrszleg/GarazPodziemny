@@ -4,9 +4,16 @@ public abstract class Pojazd {
     public String getNumerRejestracyjny(){
         return numerRejestracyjny;
     }
-    public Pojazd(Uzytkownik posiadacz, String numerRejestracyjny){
+    public class NiepoprawnyNumerRejestracyjny extends Exception {}
+    public Pojazd(Uzytkownik posiadacz, String numerRejestracyjny) throws NiepoprawnyNumerRejestracyjny{
+        if(numerRejestracyjny.length()<4){
+            throw new NiepoprawnyNumerRejestracyjny();
+        }
         this.posiadacz=posiadacz;
         this.numerRejestracyjny=numerRejestracyjny;
+    }
+    public boolean czyTenSam(Pojazd b){
+        return this.numerRejestracyjny==b.numerRejestracyjny;
     }
     public abstract int getCena();
 }
