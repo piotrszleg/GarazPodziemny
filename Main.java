@@ -20,16 +20,16 @@ public class Main {
       fileOut.close();
    }
    public static void main(String [] args) throws IOException, ClassNotFoundException {
-      Model Model;
+      Model model;
 
       try {
-         Model=zaladujModel();
+         model=zaladujModel();
       } catch(FileNotFoundException e) {
-         Model=new Model(10, 10);
+         model=new Model(10, 10);
       }
 
-      new Widok(Model).uruchom();
+      new Widok(model).uruchom();
 
-      zapiszModel(Model);
+      zapiszModel(model);
    }
 }
