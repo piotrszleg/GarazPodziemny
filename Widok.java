@@ -2,10 +2,9 @@ import java.util.Scanner;
 
 public class Widok {
     Scanner scanner=new Scanner(System.in);
-    SimpleIO io=new SimpleIO();
-    Garaz garaz;
-    public Widok(Garaz garaz){
-        this.garaz=garaz;
+    Model model;
+    public Widok(Model model){
+        this.model=model;
     }
     public void wypisz(Object o){
         System.out.println(o);
@@ -14,7 +13,7 @@ public class Widok {
         System.out.print(nazwa+": ");
         return scanner.next();
     }
-    Uzytkownik wprowadzenieUzytkownika(){
+    Uzytkownik wprowadzenieUzytkownika() {
         while(true){
             wypisz("Wybierz akcje:");
             wypisz("1. Logowanie");
@@ -23,17 +22,16 @@ public class Widok {
                 Uzytkownik uzytkownik;
                 switch(scanner.nextInt()){
                     case 1:
-                        uzytkownik=uzytkownik=garaz.zaloguj(zapytanie("email"), zapytanie("haslo"));
+                        uzytkownik=uzytkownik=model.zaloguj(zapytanie("email"), zapytanie("haslo"));
                         wypisz("Logowanie udane.");
                         return uzytkownik;
                     case 2:
-                        uzytkownik=garaz.zarejestruj(zapytanie("email"), zapytanie("haslo"));
+                        uzytkownik=model.zarejestruj(zapytanie("email"), zapytanie("haslo"));
                         wypisz("Utworzono nowe konto.");
                         return uzytkownik;
                 }
-            } catch(Exception e){
-                wypisz("Nastapil blad:");
-                wypisz(e);
+            } catch(Model.ModelException|Uzytkownik.UzytkownikException e){
+                wypisz(e.getMessage());
             }
         }
     }
@@ -49,21 +47,21 @@ public class Widok {
                     case 2: 
                         return new Motocykl(uzytkownik, zapytanie("Numer rejestracyjny"));
                 }
-            } catch(Exception e){
-                wypisz("Nastapil blad:");
-                wypisz(e);
+            } catch(Pojazd.NiepoprawnyNumerRejestracyjny e){
+                wypisz(e.getMessage());
             }
         }
     }
     public void uruchom(){
+        Uzytkownik uzytkownik=wprowadzenieUzytkownika();
+        Pojazd pojazd=wprowadzeniePojazdu(uzytkownik);
         try {
-            Uzytkownik uzytkownik=wprowadzenieUzytkownika();
-            Pojazd pojazd=wprowadzeniePojazdu(uzytkownik);
-            Miejsce miejsce=garaz.zajmijMiejsce(pojazd);
+            Miejsce miejsce=model.zajmijMiejsce(pojazd);
             wypisz("Mozesz zaparkowac na miejscu "+miejsce+" po wplaceniu kwoty "+pojazd.getCena()+"zl");
-        } catch(Exception e){
-            wypisz("Nastapil blad:");
-            wypisz(e);
+        } catch(Model.BrakMiejsc e) {
+            wypisz("Przepraszamy, brak miejsc");
+        } catch(Model.PojazdJuzZaparkowany e){
+            wypisz("Ten pojazd jest juz zaparkowany");
         }
     }
 }

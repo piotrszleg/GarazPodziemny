@@ -17,36 +17,36 @@ public class Testy {
 	   assert(zaistnialo);
 	} 
    	public static void main(String [] args) throws Exception {
-	   Garaz garaz=new Garaz(10, 10);
+	   Model model=new Model(10, 10);
 
 	   assertException(
-		   ()->garaz.zarejestruj("jan.kowalski@email.pl", "h"), 
+		   ()->model.zarejestruj("jan.kowalski@email.pl", "h"), 
 		   Uzytkownik.NiepoprawneHaslo.class);
 		assertException(
-		   ()->garaz.zarejestruj("jan.kowalski", "haslo"), 
+		   ()->model.zarejestruj("jan.kowalski", "haslo"), 
 		   Uzytkownik.NiepoprawnyEmail.class);
 	
-	   Uzytkownik uzytkownik=garaz.zarejestruj("jan.kowalski@email.pl", "haslo");
+	   Uzytkownik uzytkownik=model.zarejestruj("jan.kowalski@email.pl", "haslo");
 	   assert(uzytkownik!=null);
 	
-	   assert(garaz.zaloguj("jan.kowalski@email.pl", "haslo")!=null);
-	   assert(garaz.znajdzMiejsce()!=null);
+	   assert(model.zaloguj("jan.kowalski@email.pl", "haslo")!=null);
+	   assert(model.znajdzMiejsce()!=null);
 
 	   assertException(
 		   ()->new Samochod(uzytkownik, "ABC"), 
 		   Pojazd.NiepoprawnyNumerRejestracyjny.class);
 	   Samochod samochod=new Samochod(uzytkownik, "ABC123");
-	   assert(garaz.zajmijMiejsce(samochod)!=null);
+	   assert(model.zajmijMiejsce(samochod)!=null);
 
 	   assertException(
-		   ()->garaz.zajmijMiejsce(samochod), 
-		   Garaz.PojazdJuzZaparkowany.class);
+		   ()->model.zajmijMiejsce(samochod), 
+		   Model.PojazdJuzZaparkowany.class);
 
-	   Garaz zerowyGaraz=new Garaz(0, 0);
-	   assert(zerowyGaraz.znajdzMiejsce()==null);
+	   Model zerowyModel=new Model(0, 0);
+	   assert(zerowyModel.znajdzMiejsce()==null);
 	   assertException(
-		   ()->zerowyGaraz.zajmijMiejsce(samochod), 
-		   Garaz.BrakMiejsc.class);
+		   ()->zerowyModel.zajmijMiejsce(samochod), 
+		   Model.BrakMiejsc.class);
 
 	   System.out.println("testy zakonczone");
 	}

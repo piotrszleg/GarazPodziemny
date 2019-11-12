@@ -1,13 +1,20 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.io.OutputStream;
+import java.io.InputStream;
 
-public class Garaz {
+public class Model implements java.io.Serializable {
     Pojazd[][] miejsca;
     List<Uzytkownik> uzytkownicy=new ArrayList<Uzytkownik>();
-    public Garaz(int iloscRzedowMiejsc, int iloscKolumnMiejsc){
+    public Model(int iloscRzedowMiejsc, int iloscKolumnMiejsc){
         miejsca=new Pojazd[iloscRzedowMiejsc][iloscKolumnMiejsc];
     }
-    public class EmailZajety extends Exception {}
+    public class ModelException extends Exception {}
+    public class EmailZajety extends ModelException {
+        public String getMessage() {
+            return "Email zajety.";
+        }
+    }
     public Uzytkownik zarejestruj(String email, String haslo) throws EmailZajety, Uzytkownik.BladTworzenia, Uzytkownik.NiepoprawneHaslo, Uzytkownik.NiepoprawnyEmail {
         for(Uzytkownik uzytkownik : uzytkownicy){
             if(uzytkownik.getEmail()==email){
@@ -18,8 +25,16 @@ public class Garaz {
         uzytkownicy.add(uzytkownik);
         return uzytkownik;
     }
-    public class BrakUzytkownika extends Exception {}
-    public class NiepoprawneHaslo extends Exception {}
+    public class BrakUzytkownika extends ModelException {
+        public String getMessage() {
+            return "Brak uzytkownika.";
+        }
+    }
+    public class NiepoprawneHaslo extends ModelException {
+        public String getMessage() {
+            return "Wprowadzono niepoprawne haslo.";
+        }
+    }
     public Uzytkownik zaloguj(String email, String haslo) throws BrakUzytkownika, NiepoprawneHaslo {
         for(Uzytkownik uzytkownik : uzytkownicy){
             if(uzytkownik.getEmail()==email){
