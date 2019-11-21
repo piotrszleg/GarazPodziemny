@@ -17,7 +17,7 @@ public class Model implements java.io.Serializable {
     }
     public Uzytkownik zarejestruj(String email, String haslo) throws EmailZajety, Uzytkownik.BladTworzenia, Uzytkownik.NiepoprawneHaslo, Uzytkownik.NiepoprawnyEmail {
         for(Uzytkownik uzytkownik : uzytkownicy){
-            if(uzytkownik.getEmail()==email){
+            if(uzytkownik.getEmail().equals(email)){
                 throw new EmailZajety();
             }
         }
@@ -37,7 +37,7 @@ public class Model implements java.io.Serializable {
     }
     public Uzytkownik zaloguj(String email, String haslo) throws BrakUzytkownika, NiepoprawneHaslo {
         for(Uzytkownik uzytkownik : uzytkownicy){
-            if(uzytkownik.getEmail()==email){
+            if(uzytkownik.getEmail().equals(email)){
                 if(uzytkownik.sprawdzHaslo(haslo)){
                     return uzytkownik;
                 } else {

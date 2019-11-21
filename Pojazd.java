@@ -17,7 +17,7 @@ public abstract class Pojazd implements java.io.Serializable {
         this.numerRejestracyjny=numerRejestracyjny;
     }
     public boolean czyTenSam(Pojazd b){
-        return this.numerRejestracyjny==b.numerRejestracyjny;
+        return this.numerRejestracyjny.equals(b.numerRejestracyjny);
     }
     public abstract int getCena();
 }
